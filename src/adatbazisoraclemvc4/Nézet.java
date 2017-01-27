@@ -23,6 +23,7 @@ public class Nézet extends javax.swing.JFrame {
     setAlwaysOnTop(true);
     setLocationRelativeTo(this);
     ZéháSegítő.setFaÁllapot(tFa, true);
+    setTitle("aktuális adatmodell: "+modell.getClass().getSimpleName());
   }
 
   /**
