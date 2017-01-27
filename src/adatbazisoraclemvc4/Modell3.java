@@ -5,7 +5,6 @@
  */
 package adatbazisoraclemvc4;
 
-import static adatbazisoraclemvc4.Adatok.SQLRÉSZLEGDOLGOZÓ;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,14 +23,17 @@ class ReszlegEsDolgozoi { //CSAK azért nem #belsőosztály, mert a külső oszt
     public ReszlegEsDolgozoi(String részlegNév) {
       this.részlegNév = részlegNév;
     }
-    public void addDolgozo(String dolgozó) {
+    public void addDolgozó(String dolgozó) {
       this.dolgozóLista.add(dolgozó);
     }
     public String getRészlegNév() {
       return this.részlegNév;
     }
-    public ArrayList<String> getDolgozóLista() {  //memóriacímet ad vissza; #nemszép
-      return this.dolgozóLista;
+    public ArrayList<String> getDolgozóLista() {  //nem memóriacímet ad vissza; #szuper
+      ArrayList<String> ezkellneked = new ArrayList<>();
+      for (String aktDolgozó : this.dolgozóLista) 
+        ezkellneked.add(aktDolgozó);
+      return ezkellneked;
     }
   }
 
@@ -44,7 +46,7 @@ public class Modell3 extends Modell {
 //    public ReszlegEsDolgozoi(String részlegNév) {
 //      this.részlegNév = részlegNév;
 //    }
-//    public void addDolgozo(String dolgozó) {
+//    public void addDolgozó(String dolgozó) {
 //      this.dolgozóLista.add(dolgozó);
 //    }
 //    public String getRészlegNév() {
@@ -55,48 +57,25 @@ public class Modell3 extends Modell {
 //    }
 //  }
   
-  private ArrayList<ReszlegEsDolgozoi> listaKészít2() {
-    ArrayList<ReszlegEsDolgozoi> lista = new ArrayList<>();
-    try {
-      ResultSet eredmény = kapcsolat.createStatement().executeQuery(SQLRÉSZLEGDOLGOZÓ);
-      String előzőRészleg=null; //!: null az összehasonlítások miatt;
-      ReszlegEsDolgozoi rAndD=null; //null a NetBeans miatt;
-      while (eredmény.next()) {
-        String részleg = eredmény.getString("depName");
-        if (!részleg.equals(előzőRészleg)) { //csoportváltás van
-          if (előzőRészleg!=null) //nem a legelső részleg; #hoppá ez így nem jó az utolsó részleget nem adja hozzá
-            lista.add(rAndD);
-          rAndD = new ReszlegEsDolgozoi(részleg);
-          előzőRészleg = részleg; //megjegyezzük az előzőt
-        }          
-        String dolgozó = eredmény.getString("empName"); 
-        rAndD.addDolgozo(dolgozó); 
-      }
-    } catch (SQLException e) {
-      e.printStackTrace(); //#teszt
-    }
-    return lista;
-  }
-  
   private ArrayList<ReszlegEsDolgozoi> listaKészít() {
     ArrayList<ReszlegEsDolgozoi> lista = new ArrayList<>();
     try {
       ResultSet eredmény = kapcsolat.createStatement().executeQuery(SQLRÉSZLEGDOLGOZÓ);
       String előzőRészleg=null; //!: null az összehasonlítások miatt;
-      ReszlegEsDolgozoi rAndD=null; //null a NetBeans miatt;
+      ReszlegEsDolgozoi aktRészlegÉsDolgozói=null; //null a NetBeans miatt;
       while (eredmény.next()) {
         String részleg = eredmény.getString("depName");
-        if (!részleg.equals(előzőRészleg)) { //csoportváltás van
+        if (!részleg.equals(előzőRészleg)) { //csoportváltás vagy nem a legelső részleg;
           if (előzőRészleg!=null) //nem a legelső részleg;
-            lista.add(rAndD);
-          rAndD = new ReszlegEsDolgozoi(részleg);
+            lista.add(aktRészlegÉsDolgozói);
+          aktRészlegÉsDolgozói = new ReszlegEsDolgozoi(részleg);
           előzőRészleg = részleg; //megjegyezzük az előzőt
         }          
         String dolgozó = eredmény.getString("empName"); 
-        rAndD.addDolgozo(dolgozó); 
+        aktRészlegÉsDolgozói.addDolgozó(dolgozó); 
       }
-      if (előzőRészleg!=null) //nem a legelső részleg;
-        lista.add(rAndD);
+      if (előzőRészleg!=null) //nem a legelső részleg; vagyis még maradt
+        lista.add(aktRészlegÉsDolgozói);
     } catch (SQLException e) {
       e.printStackTrace(); //#teszt
     }
@@ -120,3 +99,5 @@ public class Modell3 extends Modell {
     return dtm;
   }
 }
+//Hogyan lehet _SQL-ben_ (nem Java-ban) nagybetűssé alakítani (legalább kiírásnál) ?
+//(pl. ha a vezetékneveket csupa nagybetűvel szeretném visszakapni)
