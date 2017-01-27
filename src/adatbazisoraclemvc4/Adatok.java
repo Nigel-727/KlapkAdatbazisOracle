@@ -10,18 +10,18 @@ public interface Adatok {
           "SELECT DISTINCT DEPARTMENT_NAME AS depName\n" +
           "FROM DEPARTMENTS D, EMPLOYEES E\n" +
           "WHERE D.DEPARTMENT_ID=E.DEPARTMENT_ID\n" +
-          "ORDER BY depName";
+          "ORDER BY depName"; //vagyis, részlegnév szerint RENDEZETT
   String SQLDOLGOZÓADOTTRÉSZLEGBŐL = 
           "SELECT LAST_NAME || ', ' ||  FIRST_NAME AS empName\n" +
           "FROM DEPARTMENTS D, EMPLOYEES E\n" +
           "WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID AND D.DEPARTMENT_NAME=?\n" + //"prepared statement"; 
                               //bármilyen típust átvesz: ha sztringet kap, köré teszi az ''-t is;
-          "ORDER BY empName";
+          "ORDER BY empName"; //vagyis, dolgozónév szerint RENDEZETT
   String SQLRÉSZLEGDOLGOZÓ =
           "SELECT DEPARTMENT_NAME AS depName, E.DEPARTMENT_ID, LAST_NAME || ', ' ||  FIRST_NAME AS empName\n" +
           "FROM DEPARTMENTS D, EMPLOYEES E\n" +
           "WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID\n" +
-          "ORDER BY depName, empName";
+          "ORDER BY depName, empName"; //vagyis, részlegnév és dolgozónév szerint RENDEZETT
 }
 /*
 //SELECT FIRST_NAME || ' ' || LAST_NAME AS empName
