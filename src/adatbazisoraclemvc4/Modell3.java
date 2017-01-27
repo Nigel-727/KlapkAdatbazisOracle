@@ -92,9 +92,10 @@ public class Modell3 extends Modell {
     DefaultTreeModel dtm = new DefaultTreeModel(faGyökér); //kell egy gyökér mindenképp amit meg kell szólítani; "hé, te gyökér!!";
     for (ReszlegEsDolgozoi aktRészlegDolgozókkal : lista) {
       DefaultMutableTreeNode faRészleg = new DefaultMutableTreeNode(aktRészlegDolgozókkal.getRészlegNév());
+//      faRészleg.add(new DefaultMutableTreeNode(aktRészlegDolgozókkal.getDolgozóLista())); //müxik, de mást csinál
+      //Ezt akarjuk:
       for (String aktDolgozó : aktRészlegDolgozókkal.getDolgozóLista()) 
         faRészleg.add(new DefaultMutableTreeNode(aktDolgozó));
-//      faRészleg.add(new DefaultMutableTreeNode(aktRészlegDolgozókkal.getDolgozóLista())); //müxik, de mást csinál
       faGyökér.add(faRészleg);
     }
     return dtm;
