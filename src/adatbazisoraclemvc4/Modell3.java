@@ -94,6 +94,7 @@ public class Modell3 extends Modell {
       DefaultMutableTreeNode faRészleg = new DefaultMutableTreeNode(aktRészlegDolgozókkal.getRészlegNév());
       for (String aktDolgozó : aktRészlegDolgozókkal.getDolgozóLista()) 
         faRészleg.add(new DefaultMutableTreeNode(aktDolgozó));
+//      faRészleg.add(new DefaultMutableTreeNode(aktRészlegDolgozókkal.getDolgozóLista())); //müxik, de mást csinál
       faGyökér.add(faRészleg);
     }
     return dtm;
