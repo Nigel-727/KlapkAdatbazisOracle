@@ -55,6 +55,29 @@ public class Modell3 extends Modell {
 //    }
 //  }
   
+  private ArrayList<ReszlegEsDolgozoi> listaKészít2() {
+    ArrayList<ReszlegEsDolgozoi> lista = new ArrayList<>();
+    try {
+      ResultSet eredmény = kapcsolat.createStatement().executeQuery(SQLRÉSZLEGDOLGOZÓ);
+      String előzőRészleg=null; //!: null az összehasonlítások miatt;
+      ReszlegEsDolgozoi rAndD=null; //null a NetBeans miatt;
+      while (eredmény.next()) {
+        String részleg = eredmény.getString("depName");
+        if (!részleg.equals(előzőRészleg)) { //csoportváltás van
+          if (előzőRészleg!=null) //nem a legelső részleg; #hoppá ez így nem jó az utolsó részleget nem adja hozzá
+            lista.add(rAndD);
+          rAndD = new ReszlegEsDolgozoi(részleg);
+          előzőRészleg = részleg; //megjegyezzük az előzőt
+        }          
+        String dolgozó = eredmény.getString("empName"); 
+        rAndD.addDolgozo(dolgozó); 
+      }
+    } catch (SQLException e) {
+      e.printStackTrace(); //#teszt
+    }
+    return lista;
+  }
+  
   private ArrayList<ReszlegEsDolgozoi> listaKészít() {
     ArrayList<ReszlegEsDolgozoi> lista = new ArrayList<>();
     try {
@@ -64,7 +87,7 @@ public class Modell3 extends Modell {
       while (eredmény.next()) {
         String részleg = eredmény.getString("depName");
         if (!részleg.equals(előzőRészleg)) { //csoportváltás van
-          if (előzőRészleg!=null) //nem a legelső részleg
+          if (előzőRészleg!=null) //nem a legelső részleg;
             lista.add(rAndD);
           rAndD = new ReszlegEsDolgozoi(részleg);
           előzőRészleg = részleg; //megjegyezzük az előzőt
@@ -72,6 +95,8 @@ public class Modell3 extends Modell {
         String dolgozó = eredmény.getString("empName"); 
         rAndD.addDolgozo(dolgozó); 
       }
+      if (előzőRészleg!=null) //nem a legelső részleg;
+        lista.add(rAndD);
     } catch (SQLException e) {
       e.printStackTrace(); //#teszt
     }
