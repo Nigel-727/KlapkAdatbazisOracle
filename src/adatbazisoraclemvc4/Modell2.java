@@ -48,5 +48,4 @@ public class Modell2 extends Modell {
     return dtm;
 //    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
-  
-}
+} //class Modell2
