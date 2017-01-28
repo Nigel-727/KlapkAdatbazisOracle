@@ -26,7 +26,7 @@ public class Modell3byKároly extends Modell{
 
     public ReszlegEsDolgozói(String reszlegNev) {
       this.reszlegNev = reszlegNev;
-      this.dolgozoLista = new ArrayList<>();
+      this.dolgozoLista = new ArrayList<>(); //Károly meg itt;
     }
 
     public String getReszlegNev() {
