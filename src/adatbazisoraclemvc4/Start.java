@@ -6,6 +6,8 @@ public class Start {
 //    Modell modell = new Modell2();
     Modell modell = new Modell3();
 //    Modell modell = new Modell3byKároly(); //#müxik :)
+//      Modell modell = new Modell3byHédi(); //ez is OK :)
+
     new Nézet(modell).setVisible(true); //uebben a csomagban van, ezért nem kell neki mondani semmit
   }
 }
